@@ -297,5 +297,5 @@
     <string name="geox_geosite">Geosite Url</string>
     <string name="geoip_url" translatable="false">https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geoip.dat</string>
     <string name="mmdb_url" translatable="false">https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb</string>
-    <string name="geosite_url" translatable="false">https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geosite.dat</string>
+    <string name="geosite_url" translatable="false">https://raw.githubusercontent.com/h0cheung/v2ray-rules-dat/release/geosite.dat</string>
 </resources>
