@@ -1,9 +1,6 @@
 name: Build Pre-Release
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   BuildPreRelease:
@@ -11,9 +8,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
+
       - name: Checkout submodules
-        run: git submodule update --init --recursive --force
+        run: |
+          git submodule update --init --remote --recursive --force
+          patch -p1 -d core/src/foss/golang/clash/ < core.patch
+          go mod tidy -C core/src/main/golang
+          go mod tidy -C core/src/foss/golang
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -54,9 +55,6 @@ jobs:
           echo keystore.password="$SIGNING_STORE_PASSWORD" > signing.properties
           echo key.alias="$SIGNING_KEY_ALIAS" >> signing.properties
           echo key.password="$SIGNING_KEY_PASSWORD" >> signing.properties
-            
-          echo "cat signing.properties"
-          cat signing.properties
 
       - name: Pre-release Build
         if: success()
@@ -65,14 +63,14 @@ jobs:
       # Delete old Prerelease-alpha
       - uses: dev-drprasad/delete-tag-and-release@v1.1
         with:
-          tag_name: Prerelease-alpha
+          tag_name: smart-alpha
           github_token: ${{ secrets.GITHUB_TOKEN }}
           delete_release: true
 
       - name: Tag Repo
         uses: richardsimko/update-tag@v1
         with:
-          tag_name: Prerelease-alpha
+          tag_name: smart-alpha
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -80,10 +78,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: ${{  success() }}
         with:
-          tag_name: Prerelease-alpha
+          tag_name: smart-alpha
           files: app/build/outputs/apk/alpha/release/*
           prerelease: true
-          generate_release_notes: true
-
-      - name: Release Changelog Builder
-        uses: mikepenz/release-changelog-builder-action@v4
+          generate_release_notes: false
