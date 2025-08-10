@@ -64,8 +64,10 @@ subprojects {
             resValue("string", "release_name", "v$versionName")
             resValue("integer", "release_code", "$versionCode")
 
-            ndk {
-                abiFilters += listOf("arm64-v8a")
+            if (!isApp) {
+                ndk {
+                    abiFilters += listOf("arm64-v8a")
+                }
             }
 
             externalNativeBuild {
@@ -186,7 +188,7 @@ subprojects {
             splits {
                 abi {
                     isEnable = true
-                    isUniversalApk = true
+                    isUniversalApk = false
                     reset()
                     include("arm64-v8a")
                 }
