@@ -1,0 +1,16 @@
+diff --git a/adapter/outboundgroup/patch_android.go b/adapter/outboundgroup/patch_android.go
+index 016ed606..c5aa1958 100644
+--- a/adapter/outboundgroup/patch_android.go
++++ b/adapter/outboundgroup/patch_android.go
+@@ -62,3 +62,11 @@ func (u *URLTest) Providers() []P.ProxyProvider {
+ func (u *URLTest) Proxies() []C.Proxy {
+ 	return u.GetProxies(false)
+ }
++
++func (s *Smart) Providers() []P.ProxyProvider {
++	return s.providers
++}
++
++func (s *Smart) Proxies() []C.Proxy {
++	return s.GetProxies(false)
++}
